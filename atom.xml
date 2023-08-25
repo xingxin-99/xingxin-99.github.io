@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xingxin-99.github.io/"/>
-  <updated>2023-08-25T05:52:35.026Z</updated>
+  <updated>2023-08-25T07:15:16.994Z</updated>
   <id>https://xingxin-99.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://xingxin-99.github.io/2023/08/25/%E6%B5%8B%E8%AF%95/"/>
     <id>https://xingxin-99.github.io/2023/08/25/测试/</id>
     <published>2023-08-25T05:52:19.000Z</published>
-    <updated>2023-08-25T05:52:35.026Z</updated>
+    <updated>2023-08-25T07:15:16.994Z</updated>
     
     <summary type="html">
     
@@ -39,7 +39,7 @@
     <link href="https://xingxin-99.github.io/2023/08/25/%E9%A1%B9%E7%9B%AE/"/>
     <id>https://xingxin-99.github.io/2023/08/25/项目/</id>
     <published>2023-08-25T05:51:45.000Z</published>
-    <updated>2023-08-25T05:52:37.903Z</updated>
+    <updated>2023-08-25T07:15:12.645Z</updated>
     
     <summary type="html">
     
@@ -57,7 +57,7 @@
     <link href="https://xingxin-99.github.io/2023/08/25/MySQL/"/>
     <id>https://xingxin-99.github.io/2023/08/25/MySQL/</id>
     <published>2023-08-25T05:50:48.000Z</published>
-    <updated>2023-08-25T05:52:40.027Z</updated>
+    <updated>2023-08-25T07:15:46.000Z</updated>
     
     <summary type="html">
     
@@ -91,7 +91,7 @@
     <link href="https://xingxin-99.github.io/2023/08/25/Spring/"/>
     <id>https://xingxin-99.github.io/2023/08/25/Spring/</id>
     <published>2023-08-25T05:49:03.000Z</published>
-    <updated>2023-08-25T06:34:08.831Z</updated>
+    <updated>2023-08-25T07:15:18.553Z</updated>
     
     <summary type="html">
     
@@ -106,26 +106,10 @@
   
   <entry>
     <title>Java</title>
-    <link href="https://xingxin-99.github.io/2023/08/25/Java-1/"/>
-    <id>https://xingxin-99.github.io/2023/08/25/Java-1/</id>
-    <published>2023-08-25T05:46:32.000Z</published>
-    <updated>2023-08-25T05:46:32.256Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-      <category term="技术" scheme="https://xingxin-99.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Java</title>
     <link href="https://xingxin-99.github.io/2023/06/24/Java/"/>
     <id>https://xingxin-99.github.io/2023/06/24/Java/</id>
     <published>2023-06-24T14:06:19.000Z</published>
-    <updated>2023-08-25T06:55:45.397Z</updated>
+    <updated>2023-08-25T07:11:14.226Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h1>]]></content>
     
@@ -150,7 +134,7 @@
     <link href="https://xingxin-99.github.io/2023/05/24/Redis%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7/"/>
     <id>https://xingxin-99.github.io/2023/05/24/Redis双写一致性/</id>
     <published>2023-05-24T12:24:16.000Z</published>
-    <updated>2023-08-25T05:52:52.547Z</updated>
+    <updated>2023-08-25T07:15:20.198Z</updated>
     
     <content type="html"><![CDATA[<p>双写一致性是为了保证数据库和缓存中的数据最终一致。</p><blockquote><p>删除缓存还是更新缓存？</p></blockquote><ol><li>写多读少场景下浪费性能<br>如果采用更新缓存方式的话，那么每对数据库更新一次，就会更新一次缓存。在写多读少的场景下，如果进行了多次更新，但没有一次读取，那中间更新多次缓存的这个过程是没必要的且浪费性能的，因为我们希望读缓存时读的是相对最新的数据。因此目前大多采用类似于懒加载的这种模式，删除缓存后，不使用时不读缓存，只有使用时再去数据库中读取最新的数据。</li><li>脏数据问题<br>线程1和线程2都要对数据库中的A数据进行写操作。线程1先执行，在写入数据库要更新缓存之前，线程2来对A进行更新并写入缓存，然后线程1再写入缓存。这导致缓存中是A更新后的数据而不是期望的B更新后的数据，导致最后缓存中出现了脏数据。<blockquote><p>先更新数据库还是先删除缓存？</p></blockquote></li></ol><blockquote><p>使用延时双删，为什么要删除两次？为什么第一次要删除？为什么要进行延时？</p></blockquote><p>延时的目的：</p><ol><li>线程B读取数据库，在还未更新缓存时，线程A更新数据库，删除缓存。线程B把读到的数据写入到缓存中，写入的是脏数据。进行延时，等到线程B将脏数据写入到缓存后在进行删除，降低了出现数据不一致性的可能。</li><li>主从同步，需要等待从库等待数据更新后再删除缓存，否则读取的还是从库中未更新的数据。<blockquote><p>如何判断Reidis中的key删除失败？</p></blockquote></li></ol><ul><li>Redis的DEL命令用于删除已存在的键，返回值是删除键的数量</li><li><p>redisTemplate.delete(key)，如果删除失败，返回false</p><blockquote><p>如果延时双删，最后的删失败了怎么办？</p></blockquote></li><li><p>失败重试机制</p><ul><li>同步重试</li><li>异步重试<ul><li>使用消息队列</li></ul></li></ul></li><li>订阅binlog日志</li></ul><p>使用canal组件订阅binlog日志，当发现binlog中有更新数据的日志时，删除相应的缓存。</p><ul><li>定时任务<br>将需要重试的数据写入到重试表中，重试表中有重试次数及数据状态，定时任务每隔一定时间读取重试表中的数据进行重试，如果成功，则将该数据删除，如果不成功则重试次数+1，如果重试次数达到指定值还未更新成功，则重试表中将该记录更新为失败状态。同时考虑是不是由于Redis宕机而导致了更新一直失败，考虑使用Redis集群来提高Redis服务的高可用性。<blockquote><p>如何保证缓存与数据库的强一致性？</p></blockquote></li></ul><p>如果要保证Redis与数据库的强一致性，可以靠考虑使用Redis的互斥锁实现。当要更新数据时，对要更新的key加上互斥锁，同时开启另一个线程对数据库执行写操作。当写操作执行完毕后释放锁。</p><blockquote><p>如何不要求强一致性，可以怎么做？</p></blockquote><ol><li>延时双删</li><li>Canal组件</li></ol>]]></content>
     
@@ -194,7 +178,7 @@
     <link href="https://xingxin-99.github.io/2022/04/25/%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE/"/>
     <id>https://xingxin-99.github.io/2022/04/25/主题配置/</id>
     <published>2022-04-25T02:37:16.000Z</published>
-    <updated>2023-08-25T03:12:31.610Z</updated>
+    <updated>2023-08-25T07:15:09.984Z</updated>
     
     <content type="html"><![CDATA[<h2 id="修改对话"><a href="#修改对话" class="headerlink" title="修改对话"></a>修改对话</h2><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230825104420164.png" alt="1"></p>]]></content>
     
@@ -217,7 +201,7 @@
     <link href="https://xingxin-99.github.io/2022/03/24/%E6%90%AD%E5%BB%BABlog%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/"/>
     <id>https://xingxin-99.github.io/2022/03/24/搭建Blog时遇到的问题/</id>
     <published>2022-03-24T12:24:16.000Z</published>
-    <updated>2023-08-25T06:39:23.987Z</updated>
+    <updated>2023-08-25T07:15:14.986Z</updated>
     
     <content type="html"><![CDATA[<blockquote><p>问题：执行hexo d后报错ssh: connect to host github.com port 22: Connection refused，文件不能部署到Github中</p></blockquote><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824140639251.png" alt="image-20230824140639251"></p><p><strong>解决：换一个端口号</strong></p><ol><li><p>进入.ssh目录，编辑配置文件config</p><pre><code class="shell">cd ~/.sshvim config</code></pre><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824141033199.png" alt="image-20230824141033199"></p></li><li><p>编辑文件内容</p><pre><code>Host github.comUser gitHostname ssh.github.comPreferredAuthentications publickeyIdentityFile ~/.ssh/id_rsaPort 443Host gitlab.comHostname altssh.gitlab.comUser gitPort 443PreferredAuthentications publickeyIdentityFile ~/.ssh/id_rsa</code></pre><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824141349564.png" alt="image-20230824141349564"></p></li><li><p>保存退出，检查是否成功</p><pre><code>ssh -T git@github.com</code></pre><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824142340533.png" alt="image-20230824142340533"></p></li><li><p>验证hexo d能否成功部署资源到Github，结果成功</p><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824142027146.png" alt="image-20230824142027146"></p><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824141848200.png" alt="image-20230824141848200"></p></li></ol><p>参考：<a href="https://blog.csdn.net/weixin_45637036/article/details/106560217" target="_blank" rel="noopener">Git问题</a></p><blockquote><p>在分类下添加标签，没有显示创建出分类下的页面</p></blockquote><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/QQ%E5%9B%BE%E7%89%8720230825140212.png" alt="QQ图片20230825140212"></p><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/QQ%E5%9B%BE%E7%89%8720230825140218.png" alt="QQ图片20230825140218"></p><p>解决：</p><p>先生成md文件，在md里添加分类，它会根据这个来生成html页面</p><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230825140708123.png" alt="image-20230825140708123"></p><p>创建成功后，再添加至配置文件中</p><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230825140759883.png" alt="image-20230825140759883"></p><p>hexo g 生成页面会发现页面已经成功生成</p><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230825140932659.png" alt="image-20230825140932659"></p><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230825141238221.png" alt="image-20230825141238221"></p><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230825141328422.png" alt="image-20230825141328422"></p><blockquote><p>如何修改新的分类下的背景图片？</p></blockquote><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230825142155668.png" alt="image-20230825142155668"></p>]]></content>
     
