@@ -75,7 +75,7 @@
     <link href="https://xingxin-99.github.io/2023/08/25/Redis/"/>
     <id>https://xingxin-99.github.io/2023/08/25/Redis/</id>
     <published>2023-08-25T05:50:30.000Z</published>
-    <updated>2023-08-25T05:50:30.188Z</updated>
+    <updated>2023-08-25T07:15:21.772Z</updated>
     
     <summary type="html">
     
@@ -109,7 +109,7 @@
     <link href="https://xingxin-99.github.io/2023/06/24/Java/"/>
     <id>https://xingxin-99.github.io/2023/06/24/Java/</id>
     <published>2023-06-24T14:06:19.000Z</published>
-    <updated>2023-08-25T07:11:14.226Z</updated>
+    <updated>2023-08-25T07:19:09.402Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h1>]]></content>
     
@@ -156,7 +156,7 @@
     <link href="https://xingxin-99.github.io/2022/05/25/1/"/>
     <id>https://xingxin-99.github.io/2022/05/25/1/</id>
     <published>2022-05-25T12:24:16.000Z</published>
-    <updated>2023-08-25T02:49:28.300Z</updated>
+    <updated>2023-08-25T07:19:07.822Z</updated>
     
     <content type="html"><![CDATA[<h3 id="阿里云OSS"><a href="#阿里云OSS" class="headerlink" title="阿里云OSS"></a>阿里云OSS</h3><ol><li><p>登陆进阿里云OSS<br><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824132825596.png" alt="image-20230824132825596"></p></li><li><p>创建OSS Bucket<br><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824133158324.png" alt="image-20230824133158324"></p><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824133521869.png" alt="image-20230824133521869"><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824133559834.png" alt></p></li><li><p>获取AccessKey<br><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824133831946.png" alt="image-20230824133831946"></p><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824134040069.png" alt="image-20230824134040069"></p><p>保存AccessKey ID与Secret，后面PicGo图床设置会使用到</p><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824134139206.png" alt="image-20230824134139206"></p></li></ol><h3 id="PicGo"><a href="#PicGo" class="headerlink" title="PicGo"></a>PicGo</h3><ol><li>下载PicGo：<br><a href="https://github.com/Molunerfinn/PicGo/releases" target="_blank" rel="noopener">Releases · Molunerfinn/PicGo (github.com)</a></li><li>选择显示图床<br><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824130630861.png" alt="image-20230824130630861"></li><li>图床设置<br><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824130854740.png" alt="image-20230824130854740"></li><li>验证图片是否能够上传成功<br><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824131104158.png" alt="image-20230824131104158"></li></ol><h3 id="Typora"><a href="#Typora" class="headerlink" title="Typora"></a>Typora</h3><p><strong>Typora上传图片设置：文件-&gt;偏好设置-&gt;图像</strong></p><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824131927896.png" alt="image-20230824131927896"></p>]]></content>
     
