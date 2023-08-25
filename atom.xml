@@ -88,7 +88,7 @@
     <link href="https://xingxin-99.github.io/2022/04/25/%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE/"/>
     <id>https://xingxin-99.github.io/2022/04/25/主题配置/</id>
     <published>2022-04-25T02:37:16.000Z</published>
-    <updated>2023-08-25T02:49:31.067Z</updated>
+    <updated>2023-08-25T03:12:31.610Z</updated>
     
     <content type="html"><![CDATA[<h2 id="修改对话"><a href="#修改对话" class="headerlink" title="修改对话"></a>修改对话</h2><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230825104420164.png" alt="1"></p>]]></content>
     
@@ -97,6 +97,32 @@
       
       
         &lt;h2 id=&quot;修改对话&quot;&gt;&lt;a href=&quot;#修改对话&quot; class=&quot;headerlink&quot; title=&quot;修改对话&quot;&gt;&lt;/a&gt;修改对话&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;https://starstar-blog.oss-cn-chengdu.aliyuncs.com/im
+      
+    
+    </summary>
+    
+      <category term="技术" scheme="https://xingxin-99.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>搭建博客时遇到的问题</title>
+    <link href="https://xingxin-99.github.io/2022/03/24/%E6%90%AD%E5%BB%BABlog%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+    <id>https://xingxin-99.github.io/2022/03/24/搭建Blog时遇到的问题/</id>
+    <published>2022-03-24T12:24:16.000Z</published>
+    <updated>2023-08-25T03:12:27.085Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>问题：执行hexo d后报错ssh: connect to host github.com port 22: Connection refused，文件不能部署到Github中</p></blockquote><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824140639251.png" alt="image-20230824140639251"></p><p><strong>解决：换一个端口号</strong></p><ol><li><p>进入.ssh目录，编辑配置文件config</p><pre><code class="shell">cd ~/.sshvim config</code></pre><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824141033199.png" alt="image-20230824141033199"></p></li><li><p>编辑文件内容</p><pre><code>Host github.comUser gitHostname ssh.github.comPreferredAuthentications publickeyIdentityFile ~/.ssh/id_rsaPort 443Host gitlab.comHostname altssh.gitlab.comUser gitPort 443PreferredAuthentications publickeyIdentityFile ~/.ssh/id_rsa</code></pre><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824141349564.png" alt="image-20230824141349564"></p></li><li><p>保存退出，检查是否成功</p><pre><code>ssh -T git@github.com</code></pre><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824142340533.png" alt="image-20230824142340533"></p></li><li><p>验证hexo d能否成功部署资源到Github，结果成功</p><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824142027146.png" alt="image-20230824142027146"></p><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824141848200.png" alt="image-20230824141848200"></p></li></ol><p>参考：<a href="https://blog.csdn.net/weixin_45637036/article/details/106560217" target="_blank" rel="noopener">Git问题</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;问题：执行hexo d后报错ssh: connect to host github.com port 22: Connection refused，文件不能部署到Github中&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;http
       
     
     </summary>
