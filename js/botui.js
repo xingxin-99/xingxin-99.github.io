@@ -26,11 +26,11 @@ function bot_ui_ini() {
     }).then(function () {
         botui.message.add({
             delay: 1100,
-            content: "这里是 Star"
+            content: "这里是 Mashiro"
         }).then(function () {
             botui.message.add({
                 delay: 1100,
-                content: "一个可爱的女孩子~"
+                content: "一个可爱的蓝孩子~"
             }).then(function () {
                 botui.action.button({
                     delay: 1600,
@@ -65,11 +65,11 @@ function bot_ui_ini() {
         secondpart = function () {
             botui.message.add({
                 delay: 1500,
-                content: "目前就读于重庆邮电大学"
+                content: "目前就读于上海财经大学"
             }).then(function () {
                 botui.message.add({
                     delay: 1500,
-                    content: "向往技术…"
+                    content: "向往技术却误入商科，但后来喜欢上了经济学…"
                 }).then(function () {
                     botui.message.add({
                         delay: 1200,
@@ -77,11 +77,11 @@ function bot_ui_ini() {
                     }).then(function () {
                         botui.message.add({
                             delay: 1500,
-                            content: "主攻 Java 语言和 Python，略懂 测试，偶尔也折腾 HTML/CSS/JavaScript/PHP"
+                            content: "主攻 R 语言和 Python，略懂 STATA，偶尔也折腾 HTML/CSS/JavaScript/PHP"
                         }).then(function () {
                             botui.message.add({
                                 delay: 1500,
-                                content: "研究的方向，是基于深度学习的运动意图解码"
+                                content: "研究的方向，是经济/金融方向的数据分析（data science）以及机器学习（machine learning）"
                             }).then(function () {
                                 botui.message.add({
                                     delay: 1800,
@@ -90,8 +90,8 @@ function bot_ui_ini() {
                                     botui.action.button({
                                         delay: 1100,
                                         action: [{
-                                            text: "为什么叫Star呢？ 🤔",
-                                            value: "一闪一闪亮晶晶！"
+                                            text: "为什么叫Mashiro呢？ 🤔",
+                                            value: "why-mashiro"
                                         }]
                                     }).then(function (a) {
                                         thirdpart()
