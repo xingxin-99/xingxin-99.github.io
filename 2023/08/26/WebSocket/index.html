@@ -444,14 +444,10 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <h1 id="WebSocket实现来单提醒是如何实现的？"><a href="#WebSocket实现来单提醒是如何实现的？" class="headerlink" title="WebSocket实现来单提醒是如何实现的？"></a>WebSocket实现来单提醒是如何实现的？</h1><p>WbeSocket是一个基于TCP的一种新的<strong>网络协议</strong>（ws协议）（不同于Http协议），是一种<strong>全双工</strong>的通信协议，它即允许浏览器向服务器端推送消息，同时也允许服务器端向浏览器推送消息。浏览器和服务器只需要经历一次握手，就可以创建一个<strong>持久性连接</strong>，并在连接中进行双向数据传输。</p>
-<h2 id="WebSocket和Http有什么不同？"><a href="#WebSocket和Http有什么不同？" class="headerlink" title="WebSocket和Http有什么不同？"></a>WebSocket和Http有什么不同？</h2><ul>
-<li>WebSocket是一种全双工的通信方式，它允许两端都可以主动的向对方推送消息，因此Websocket更像是现实生活中打电话的场景，电话接通后，双方都可以听到对方的信息。而Http它是请求响应模式，由客户端发出请求，浏览器回以响应。</li>
-</ul>
+          <h1 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h1><p>WbeSocket是一个基于TCP的一种新的<strong>网络协议</strong>（ws协议）（不同于Http协议），是一种<strong>全双工</strong>的通信协议，它即允许浏览器向服务器端推送消息，同时也允许服务器端向浏览器推送消息。浏览器和服务器只需要经历一次握手，就可以创建一个<strong>持久性连接</strong>，并在连接中进行双向数据传输。</p>
+<h2 id="WebSocket和Http有什么不同？"><a href="#WebSocket和Http有什么不同？" class="headerlink" title="WebSocket和Http有什么不同？"></a>WebSocket和Http有什么不同？</h2><p>WebSocket是一种全双工的通信方式，它允许两端都可以主动的向对方推送消息，因此Websocket更像是现实生活中打电话的场景，电话接通后，双方都可以听到对方的信息。而Http它是请求响应模式，由客户端发出请求，浏览器回以响应。</p>
 <p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/img/1690872227077-38fcaa95-6f59-4304-b42a-e2810bb76ba3.png" alt="image.png"></p>
-<h2 id="Websocket的应用场景（页面不刷新，但数据可以实时变化）"><a href="#Websocket的应用场景（页面不刷新，但数据可以实时变化）" class="headerlink" title="Websocket的应用场景（页面不刷新，但数据可以实时变化）"></a>Websocket的应用场景（页面不刷新，但数据可以实时变化）</h2><ul>
-<li>视频弹幕、网页聊天（通过Websocket把聊天消息推送到页面中显示）、体育实况更新、股票基金报价实时更新</li>
-</ul>
+<h2 id="Websocket的应用场景（页面不刷新，但数据可以实时变化）"><a href="#Websocket的应用场景（页面不刷新，但数据可以实时变化）" class="headerlink" title="Websocket的应用场景（页面不刷新，但数据可以实时变化）"></a>Websocket的应用场景（页面不刷新，但数据可以实时变化）</h2><p>视频弹幕、网页聊天（通过Websocket把聊天消息推送到页面中显示）、体育实况更新、股票基金报价实时更新</p>
 <p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/img/1690871933655-8ae729f7-b16c-4a8c-a763-752cbab4137a.png" alt="image.png"></p>
 <h2 id="WebSocket的原理是什么？"><a href="#WebSocket的原理是什么？" class="headerlink" title="WebSocket的原理是什么？"></a>WebSocket的原理是什么？</h2><p>客户端向服务器发送建立连接的请求，此时发送的请求信息如下：</p>
 <pre><code class="java">GET /chat HTTP/1.1
