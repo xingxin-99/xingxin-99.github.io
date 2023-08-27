@@ -447,49 +447,26 @@
           <style>
 
   table {
-    table-layout: fixed;
-    width: 1000px; /*表格宽度*/
-    max-width: 1000px; /*表格最大宽度，避免表格过宽*/
+    width: 100%; /*表格宽度*/
+    max-width: 65em; /*表格最大宽度，避免表格过宽*/
     border: 1px solid #dedede; /*表格外边框设置*/
     margin: 15px auto; /*外边距*/
     border-collapse: collapse; /*使用单一线条的边框*/
-    word-break:break-all;
-    word-wrap:break-word;
     empty-cells: show; /*单元格无内容依旧绘制边框*/
   }
   table th,
   table td {
-    height: 35px; /*统一每一行的默认高度*/
+    height: 25px; /*统一每一行的默认高度*/
+    font-size: 10px;  /*行内字符大小*/
     border: 1px solid #dedede; /*内部边框样式*/
     padding: 0 10px; /*内边距*/
   }
-  table th {
-    font-weight: bold; /*加粗*/
-    text-align: center !important; /*内容居中，加上 !important 避免被 Markdown 样式覆盖*/
-    background: rgba(158,188,226,0.2); /*背景色*/
+    table th {
+      font-size: 10px;  /*表头字符大小*/
+      font-weight: bold; /*加粗*/
+      text-align: center ; /*内容居中，加上 !important 避免被 Markdown 样式覆盖*/
+      background: rgba(158,188,226,0.2); /*背景色*/
   }
-
-  table tbody tr:nth-child(2n) {
-    background: rgba(158,188,226,0.12);
-  }
-
-  table th {
-    white-space: nowrap; /*表头内容强制在一行显示*/
-  }
-
-  table th:nth-of-type(1){
-    width: 20%;
-  }
-  table th:nth-of-type(2){
-    width: 20%;
-  }
-  table th:nth-of-type(3){
-    width: 20%;
-  }
-  table th:nth-of-type(4){
-    width: 40%;
-  }
-
 </style>
 
 <h1 id="测试基础"><a href="#测试基础" class="headerlink" title="测试基础"></a>测试基础</h1><h2 id="什么是软件测试？"><a href="#什么是软件测试？" class="headerlink" title="什么是软件测试？"></a>什么是软件测试？</h2><table>
@@ -581,45 +558,43 @@
 </tbody>
 </table>
 <ol>
-<li>需求分析</li>
-</ol>
-<p>阅读需求文档，联合前端、后端、测试、产品等部门，确保各部门对需求理解一致；了解软件的具体功能</p>
-<ol start="2">
-<li>计划编写</li>
-</ol>
-<p>确定测试的目标、范围<br>对人力、物力进行分配，确定那些人要具体做哪些事情，对进度进行安排<br>确定要使用哪些测试工具、测试策略</p>
-<ol start="3">
-<li>用例设计</li>
-</ol>
-<p>分析需求，从需求中提取测试点，来设计测试用例</p>
-<ol start="4">
-<li>用例执行，提交bug，回归测试</li>
-</ol>
-<p>当进行测试后，会发现软件的缺陷。确定缺陷后，将缺陷提交给开发人员，开发人员修改后进行回归测试</p>
-<ol start="5">
+<li><p>需求分析<br>阅读需求文档，联合前端、后端、测试、产品等部门，确保各部门对需求理解一致；了解软件的具体功能</p>
+</li>
+<li><p>计划编写<br>确定测试的目标、范围<br>对人力、物力进行分配，确定那些人要具体做哪些事情，对进度进行安排<br>确定要使用哪些测试工具、测试策略</p>
+</li>
+<li><p>用例设计<br>分析需求，从需求中提取测试点，来设计测试用例</p>
+</li>
+<li><p>用例执行，提交bug，回归测试<br>当进行测试后，会发现软件的缺陷。确定缺陷后，将缺陷提交给开发人员，开发人员修改后进行回归测试</p>
+</li>
 <li><p>测试报告</p>
-<h2 id="常见的黑盒测试方法有哪些？"><a href="#常见的黑盒测试方法有哪些？" class="headerlink" title="常见的黑盒测试方法有哪些？"></a>常见的黑盒测试方法有哪些？</h2><p>| 复习时间 | 2023/8/4 | 2023/8/16 |<br>| — | — | — |</p>
-</li>
-<li><p><strong>等价类划分法（穷举场景）</strong></p>
 </li>
 </ol>
-<p>指在所有的测试数据中，对具有某种共同特征的数据集合进行划分，然后从每一个子集中选取<br>少数具有代表性的数据作为测试用例。<br><strong>举例：验证6-10位自然数QQ号的合法性</strong><br>按照等价类划分法：<br>有效等价类：6-10位自然数；无效等价类：&lt;6位，&gt;10位自然数，以及6-10位非自然数</p>
-<ol start="2">
-<li><strong>边界值分析（有边界范围）</strong></li>
+<h2 id="常见的黑盒测试方法有哪些？"><a href="#常见的黑盒测试方法有哪些？" class="headerlink" title="常见的黑盒测试方法有哪些？"></a>常见的黑盒测试方法有哪些？</h2><table>
+<thead>
+<tr>
+<th>复习时间</th>
+<th>2023/8/4</th>
+<th>2023/8/16</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><p><strong>等价类划分法（穷举场景）</strong><br>指在所有的测试数据中，对具有某种共同特征的数据集合进行划分，然后从每一个子集中选取<br>少数具有代表性的数据作为测试用例。<br><strong>举例：验证6-10位自然数QQ号的合法性</strong><br>按照等价类划分法：<br>有效等价类：6-10位自然数；无效等价类：&lt;6位，&gt;10位自然数，以及6-10位非自然数</p>
+</li>
+<li><p><strong>边界值分析（有边界范围）</strong><br>对输入、输出的边界值进行测试。<br>在边界值分析法中规范了要选择的边界值，上点、离点、内点</p>
+</li>
+<li><p><strong>因果图分析</strong><br>利用图解法分析输入的各种组合情况，从而设计测试用例的方法</p>
+</li>
+<li><p><strong>判定表法（多条件依赖关系）</strong><br>以表格形式表达多条件依赖逻辑判断的工具<br>判定表由条件桩、动作桩、条件项、动作项组成，根据条件项确定动作项，贯穿条件项和动作项的一列是一条规则<br><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/1691310738780-8fc6a32f-f14a-46ec-b105-2c42ac7f833f.png" alt="image.png"></p>
+</li>
+<li><p><strong>错误推测法</strong><br>根据测试者以往测试经验来对可能出现错误的地方进行测试。</p>
+</li>
 </ol>
-<p>对输入、输出的边界值进行测试。<br>在边界值分析法中规范了要选择的边界值，上点、离点、内点</p>
-<ol start="3">
-<li><strong>因果图分析</strong></li>
-</ol>
-<p>利用图解法分析输入的各种组合情况，从而设计测试用例的方法</p>
-<ol start="4">
-<li><strong>判定表法（多条件依赖关系）</strong></li>
-</ol>
-<p>以表格形式表达多条件依赖逻辑判断的工具<br>判定表由条件桩、动作桩、条件项、动作项组成，根据条件项确定动作项，贯穿条件项和动作项的一列是一条规则<br><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/1691310738780-8fc6a32f-f14a-46ec-b105-2c42ac7f833f.png" alt="image.png"></p>
-<ol start="5">
-<li><strong>错误推测法</strong></li>
-</ol>
-<p>根据测试者以往测试经验来对可能出现错误的地方进行测试。</p>
 <h2 id="为什么要进行自动化测试？"><a href="#为什么要进行自动化测试？" class="headerlink" title="为什么要进行自动化测试？"></a>为什么要进行自动化测试？</h2><table>
 <thead>
 <tr>
@@ -637,8 +612,34 @@
 <ol>
 <li>通过采用自动化测试，可以替代大量重复性的工作，提高测试效率</li>
 <li>保证每次测试的一致性和可重复性。由于每次自动化测试执行时脚本都是相同的，所以每次执行的测试具有一致性，同时也可以提高回归测试的效率。</li>
-<li>可以更好的利用非工作时间。由于自动化测试能够哪找计划自动执行，因此就可以利用非工作时间使用自动化测试来执行测试。<h2 id="测试用例编写规范"><a href="#测试用例编写规范" class="headerlink" title="测试用例编写规范"></a>测试用例编写规范</h2>| 用例编号 | 用例标题 | 测试模块/项目 | 用例级别 | 预置条件 | 测试步骤 | 测试数据 | 预期结果 |<br>| — | — | — | — | — | — | — | — |<br>|  | 预期结果(测试点) |  |  |  |  |  |  |<br>| login_001 | 登陆失败<br>（手机号未注册+非空密码） | login | P1 | 1.APP应用正常<br>2.网络正常 | 1.打开登录页面<br>2.输入手机号<br>3.输入密码<br>4.点击登录 | 手机号：13257894512<br>密码：1458796 | 登陆失败。提示：“手机号未注册”<br>|</li>
+<li>可以更好的利用非工作时间。由于自动化测试能够哪找计划自动执行，因此就可以利用非工作时间使用自动化测试来执行测试。</li>
 </ol>
+<h2 id="测试用例编写规范"><a href="#测试用例编写规范" class="headerlink" title="测试用例编写规范"></a>测试用例编写规范</h2><table>
+<thead>
+<tr>
+<th>用例编号</th>
+<th>用例标题(预期结果+测试点)</th>
+<th>测试模块/项目</th>
+<th>用例级别</th>
+<th>预置条件</th>
+<th>测试步骤</th>
+<th>测试数据</th>
+<th>预期结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>login_001</td>
+<td>登陆失败（手机号未注册+非空密码）</td>
+<td>login</td>
+<td>P1</td>
+<td>1.APP应用正常;2.网络正常</td>
+<td>1.打开登录页面;2.输入手机号;3.输入密码;4.点击登录</td>
+<td>手机号：13257894512;密码：1458796</td>
+<td>登陆失败。提示：“手机号未注册”</td>
+</tr>
+</tbody>
+</table>
 <h1 id="Selenium"><a href="#Selenium" class="headerlink" title="Selenium"></a>Selenium</h1><table>
 <thead>
 <tr>
