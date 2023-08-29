@@ -444,7 +444,7 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <p>AOP指的是一种面向切面编程的思想，它把与业务无关的代码（比如事务管理、日志管理等系统服务）抽取出来单独封装成一个个切面，然后在运行时通过动态代理的方式织入到业务代码中。通过AOP可以使代码复用性增强，同时使开发人员专注于核心业务代码的编写，而不需要在编写核心业务代码时还需处理交叉业务。<br><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/1665732609757-d8ae52ba-915e-49cf-9ef4-c7bcada0d601.png" alt></p>
+          <p>AOP指的是一种面向切面编程的思想，它把与业务无关的代码（比如事务管理、日志管理等系统服务）抽取出来单独封装成一个个切面，然后在运行时通过动态代理的方式织入到业务代码中。通过AOP可以使代码复用性增强，同时使开发人员专注于核心业务代码的编写，而不需要在编写核心业务代码时还需处理交叉业务。<br>AOP真正强大之处在于，它可以在系统业务逻辑固定情况下，在方法前后等一些位置处根据需求添加一些代码来对业务逻辑进行增强或修改，实现了想增加业务就增加业务，想去掉业务就去掉业务，解耦力度很大，灵活度很高。同时也满足了设计模式中的开闭原则。<br><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/1665732609757-d8ae52ba-915e-49cf-9ef4-c7bcada0d601.png" alt></p>
 <h3 id="AOP相关术语"><a href="#AOP相关术语" class="headerlink" title="AOP相关术语"></a>AOP相关术语</h3><ol>
 <li><strong>连接点Jointpoint</strong><br>在程序执行过程中，可以织入切面的位置。比如方法的执行前后，异常抛出之后等位置。</li>
 <li><strong>切点Pointcut</strong><br>在程序执行过程中，真正织入切面的位置。（什么地方）</li>
@@ -452,13 +452,13 @@
 <li><strong>切面Aspect</strong><br>切点+通知（在什么地方，什么时候，做了什么增强。）</li>
 <li><strong>织入Weaving</strong><br>把通知应用到目标对象上的过程</li>
 <li><strong>代理对象Proxy</strong><br>目标对象被织入通知后产生的新对象</li>
-<li><p><strong>目标对象Target</strong><br>要被织入通知的对象</p>
+<li><strong>目标对象Target</strong><br>要被织入通知的对象</li>
+</ol>
 <h3 id="切点表达式"><a href="#切点表达式" class="headerlink" title="切点表达式"></a>切点表达式</h3><p>切点表达式用来定义通知（Advice）往哪些方法上切入。<br>切入点表达式语法格式：</p>
 <pre><code class="java">execution([访问控制权限修饰符] 返回值类型 [全限定类名]方法名(形式参数列表) [异常])
 </code></pre>
-</li>
-<li><p><strong>访问控制权限修饰符（可选项）</strong></p>
 <ol>
+<li><strong>访问控制权限修饰符（可选项）</strong><ol>
 <li>没写，就是4个权限都包括。</li>
 <li>写public就表示只包括公开的方法。</li>
 </ol>
@@ -487,13 +487,13 @@
 <li><strong>异常（可选项）</strong><ol>
 <li>省略时表示任意异常类型。<pre><code class="java">execution(public * com.powernode.mall.service.*.delete*(..))
 </code></pre>
+</li>
+</ol>
+</li>
+</ol>
 <h3 id="AOP案例：安全日志"><a href="#AOP案例：安全日志" class="headerlink" title="AOP案例：安全日志"></a>AOP案例：安全日志</h3><blockquote>
 <p>需求：项目开发结束了，已经上线了。运行正常。客户提出了新的需求：凡事在系统中进行修改操作的，删除操作的，新增操作的，都要把这个人记录下来。</p>
 </blockquote>
-</li>
-</ol>
-</li>
-</ol>
 <pre><code class="java">package com.powernode.spring6.biz;
 
 import org.springframework.stereotype.Component;
@@ -582,6 +582,7 @@ public void testSecurity(){
 }
 </code></pre>
 <p>执行结果<br><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/1665901327786-9bfab382-61a3-4d1e-abe5-728b242eb3a2.png" alt><br>参考：<br><a href="https://www.yuque.com/dujubin/ltckqu/kipzgd#Cd1wT" target="_blank" rel="noopener">https://www.yuque.com/dujubin/ltckqu/kipzgd#Cd1wT</a><br><a href="https://blog.csdn.net/duzhe2905/article/details/105938187" target="_blank" rel="noopener">https://blog.csdn.net/duzhe2905/article/details/105938187</a></p>
+<p><a href="https://blog.csdn.net/rod0320/article/details/123288057?ydreferer=aHR0cHM6Ly9jbi5iaW5nLmNvbS8%3D" target="_blank" rel="noopener">https://blog.csdn.net/rod0320/article/details/123288057?ydreferer=aHR0cHM6Ly9jbi5iaW5nLmNvbS8%3D</a><br><a href="https://blog.csdn.net/rod0320/article/details/123288057?ydreferer=aHR0cHM6Ly9jbi5iaW5nLmNvbS8%3D" target="_blank" rel="noopener">https://blog.csdn.net/rod0320/article/details/123288057?ydreferer=aHR0cHM6Ly9jbi5iaW5nLmNvbS8%3D</a></p>
 
         </div>
         <!-- .entry-content -->
@@ -610,9 +611,26 @@ public void testSecurity(){
       <div class="toc" style="background: none;"></div>
       <section class="post-squares nextprev">
         
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2023/08/29/Bean对象的生命周期/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="" data-src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/img/starry_sky_stars_space_1018483_1920x1200.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/img/starry_sky_stars_space_1018483_1920x1200.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                Bean对象的生命周期</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
         
           
-            <div class="post-nepre full next">
+            <div class="post-nepre half next">
           
             <a href="/2023/08/29/Spring特点/" rel="next">
               <div class="background">

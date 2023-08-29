@@ -444,32 +444,7 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <style>
-
-  table {
-    width: 100%; /*表格宽度*/
-    max-width: 65em; /*表格最大宽度，避免表格过宽*/
-    border: 1px solid #dedede; /*表格外边框设置*/
-    margin: 15px auto; /*外边距*/
-    border-collapse: collapse; /*使用单一线条的边框*/
-    empty-cells: show; /*单元格无内容依旧绘制边框*/
-  }
-  table th,
-  table td {
-    height: 25px; /*统一每一行的默认高度*/
-    font-size: 10px;  /*行内字符大小*/
-    border: 1px solid #dedede; /*内部边框样式*/
-    padding: 0 10px; /*内边距*/
-  }
-    table th {
-      font-size: 10px;  /*表头字符大小*/
-      font-weight: bold; /*加粗*/
-      text-align: center ; /*内容居中，加上 !important 避免被 Markdown 样式覆盖*/
-      background: rgba(158,188,226,0.2); /*背景色*/
-  }
-</style>
-
-<h1 id="一、短信登陆"><a href="#一、短信登陆" class="headerlink" title="一、短信登陆"></a>一、短信登陆</h1><h2 id="集群Session问题"><a href="#集群Session问题" class="headerlink" title="集群Session问题"></a>集群Session问题</h2><p>每个Tomcat服务器都有自己独立的Session空间，多个Tomcat服务器不会共享Session存储空间，因此当请求切换到其他的Tomcat服务器时，由于该服务器的Session中并没有保存用户相关信息，因此请求会被拦截，需要用户重新进行登录校验，导致用户体验感变差。<br><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/img/1691048466795-847d7772-0269-4044-b9fa-bd236b39f42d.png" alt="image.png"><br><strong>解决方案：</strong></p>
+          <h1 id="一、短信登陆"><a href="#一、短信登陆" class="headerlink" title="一、短信登陆"></a>一、短信登陆</h1><h2 id="集群Session问题"><a href="#集群Session问题" class="headerlink" title="集群Session问题"></a>集群Session问题</h2><p>每个Tomcat服务器都有自己独立的Session空间，多个Tomcat服务器不会共享Session存储空间，因此当请求切换到其他的Tomcat服务器时，由于该服务器的Session中并没有保存用户相关信息，因此请求会被拦截，需要用户重新进行登录校验，导致用户体验感变差。<br><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/img/1691048466795-847d7772-0269-4044-b9fa-bd236b39f42d.png" alt="image.png"><br><strong>解决方案：</strong></p>
 <ol>
 <li>Session拷贝<ol>
 <li>在不同的session中存储相同数据，浪费空间</li>
