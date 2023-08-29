@@ -449,10 +449,9 @@
 <li><strong>实例化Bean</strong><br>当Spring启动时，会查找并加载需要被Spring管理的Bean（基于注解方式的话，会查找加了@Bean、@Controller、@Service…的类）。通过BeanDefinitionReader这个接口解析xml配置、配置类或其他的一些方式定义的类，得到BeanDefinition。使用BeanFactory通过反射对Bean进行实例化。</li>
 <li><strong>依赖注入</strong><br>对bean中的属性进行赋值，通过setter方法注入，比如对加了@Autowire 注解的属性注入 </li>
 <li><strong>处理Aware接口（Aware回调接口，让bean向容器表明它们需要某种基础设施依赖）</strong><br>Spring会检测该对象是否实现了xxxAware接口，并将相关的xxxAware实例注入给Bean。  比如这个Bean已经实现了BeanNameAware接口，会调用它实现的setBeanName(String beanId)方法，此处传递的就是Spring配置文件中Bean的id值  </li>
-<li><strong>调用BeanPostProcessor的前置处理方法</strong></li>
-<li><strong>执行初始化方法</strong><br>检查Bean是否实现了InitializingBean接口或者在配置文件中配置了init-method属性，如果配置了，则自动调用配置的初始化方法。  </li>
-<li><strong>调用BeanPostProcessor的后置处理方法
-</strong>主要对bean进行增强</li>
+<li><strong>调用BeanPostProcessor的前置处理方法</strong><br>自定义初始化前逻辑，比如日志检查、属性修改等</li>
+<li><strong>执行初始化方法</strong><br>检查Bean是否实现了InitializingBean接口或者在配置文件中配置了init-method属性，如果配置了，则自动调用配置的初始化方法。通过执行初始化方法，可以使Bean在被程序使用之前执行一些自定义初始化操作，比如资源加载、连接数据库等。  </li>
+<li><strong>调用BeanPostProcessor的后置处理方法</strong><br>主要对bean进行增强。AOP就是通过BeanPostProcessor的后置方法来实现对Bean对象的代理。</li>
 <li><strong>使用Bean</strong><br>经过上述步骤后Bean已经被创建，现在可以使用这个Bean了</li>
 <li><strong>销毁Bean</strong><br>如果Bean实现了DisposableBean这个接口，会自动其实现的destroy()方法。 如果这个Bean的Spring配置中配置了destroy-method属性，会自动调用其配置的销毁方法。</li>
 </ol>
