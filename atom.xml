@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xingxin-99.github.io/"/>
-  <updated>2023-08-29T10:33:53.063Z</updated>
+  <updated>2023-08-29T13:15:56.360Z</updated>
   <id>https://xingxin-99.github.io/</id>
   
   <author>
@@ -15,6 +15,76 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Spring Bean对象的作用域</title>
+    <link href="https://xingxin-99.github.io/2023/08/29/Spring-Bean%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F/"/>
+    <id>https://xingxin-99.github.io/2023/08/29/Spring-Bean对象的作用域/</id>
+    <published>2023-08-29T13:13:08.000Z</published>
+    <updated>2023-08-29T13:15:56.360Z</updated>
+    
+    <content type="html"><![CDATA[<ol><li><strong>singleton</strong><br>单例bean对象，每个Bean对象在每个Spring容器中只存在一个。<br>当Spring容器启动时，它会读取并解析<code>BeanDefination</code>，然后根据<code>BeanDefination</code>创建Bean实例，并把这些实例保存在<code>singletonCache</code>（单例注册表<code>private final Map singletonCache=new HashMap()</code> ，其中Bean的名称（或ID）充当键，Bean实例充当值）。当其他组件请求某一Bean时，Spring会首先检查在单例注册表中是否存在该Bean，如果存在，则直接返回该Bean对象的实例，否则将会去创建该Bean的实例对象。</li><li><strong>prototype</strong><br>每进行一次依赖注入，或者每调用一次<code>getBean()</code>方法都会创建新的Bean对象。<br>与singleton不同的是，当其他组件请求某一Bean时，会在每次请求时都调用<code>createBean(beanName,mergedBeanDefinition,args)</code>来创建一个新的Bean实例。</li><li><strong>request</strong><br>每次http请求都会创建一个Bean</li><li><strong>session</strong><br>每个会话都会创建一个Bean</li><li><strong>websocket</strong><br>一个websocket对应一个Bean</li><li><strong>global-session</strong><br>在一个全局的http session中，一个Bean定义对应一个实例</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;singleton&lt;/strong&gt;&lt;br&gt;单例bean对象，每个Bean对象在每个Spring容器中只存在一个。&lt;br&gt;当Spring容器启动时，它会读取并解析&lt;code&gt;BeanDefination&lt;/code&gt;，然后根据&lt;code&gt;Bean
+      
+    
+    </summary>
+    
+      <category term="Spring" scheme="https://xingxin-99.github.io/categories/Spring/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>对依赖注入的理解</title>
+    <link href="https://xingxin-99.github.io/2023/08/29/%E5%AF%B9%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%9A%84%E7%90%86%E8%A7%A3/"/>
+    <id>https://xingxin-99.github.io/2023/08/29/对依赖注入的理解/</id>
+    <published>2023-08-29T13:12:45.000Z</published>
+    <updated>2023-08-29T13:15:09.988Z</updated>
+    
+    <content type="html"><![CDATA[<p>DI是为了实现控制反转的思想，其中依赖指的是对象与对象之间的关联关系，注入指的是一种数据传递行为，通过注入让对象和对象产生关系。通过依赖注入的方式可以去除Java类的直接依赖关系，实现松耦合。如果不使用依赖注入，那么对象与对象就交由开发人员来负责。比如优惠券父类引用指向折扣劵子类对象，如果想要替换折扣劵为满减劵，就需要由开发人员修改所有的折扣劵处的引用代码。而通过依赖注入就无须在代码中创建被调用对象，那么对象与对象之间关系的注入交由容器来负责，我想要优惠券的父类引用从指向折扣劵改为指向满减劵的子类对象，那么只需要修改配置文件即可。</p><h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p><strong>不使用依赖注入，对象与对象之间紧密耦合。</strong></p><pre><code class="java">class Player{      Weapon weapon;      Player(){          // 与 Sword类紧密耦合        this.weapon = new Sword();      }      public void attack() {        weapon.attack();    }}   </code></pre><p>例如，玩家的武器只能是剑Sword，而不能把Sword替换成枪Gun。要把Sword改为Gun，所有涉及到的代码都要修改。<br><strong>依赖注入是一种消除类之间依赖关系的设计模式。</strong><br>例如，A类要依赖B类，A类不再直接创建B类，而是把这种依赖关系配置在外部xml文件（或java config文件）中，然后由Spring容器根据配置信息创建、管理bean类。</p><pre><code class="java">class Player{      Weapon weapon;      // weapon 被注入进来    Player(Weapon weapon){          this.weapon = weapon;      }      public void attack() {        weapon.attack();    }    public void setWeapon(Weapon weapon){          this.weapon = weapon;      }  </code></pre><p>如上所示，Weapon类的实例并不在代码中创建，而是外部通过构造函数传入，传入类型是<strong>父类</strong>Weapon，所以传入的对象类型可以是任何Weapon子类。</p><h3 id="依赖注入的实现方式"><a href="#依赖注入的实现方式" class="headerlink" title="依赖注入的实现方式"></a>依赖注入的实现方式</h3><ol><li><strong>Setter方法注入</strong><br>底层通过反射机制调用属性的set方法来将被依赖对象注入给依赖类，这种方式要求属性必须对外提高set方法。<br><strong>优点：</strong> 灵活。可以选择性地注入需要的对象。<br><strong>缺点：</strong> 依赖对象实例化完成后由于尚未注入被依赖对象，因此还不能使用。  </li><li><strong>构造函数注入</strong><br>将被依赖对象通过构造函数的参数传入给依赖对象。<br><strong>优点：</strong> 对象实例化完成后便可获得可使用的对象。<br><strong>缺点：</strong> 当需要注入的对象很多时，构造器参数列表将会很长； 不够灵活。若有多种注入方式，每种方式只需注入指定几个依赖，那么就需要提供多个重载的构造函数，麻烦。  <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><a href="https://zhuanlan.zhihu.com/p/67032669" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/67032669</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;DI是为了实现控制反转的思想，其中依赖指的是对象与对象之间的关联关系，注入指的是一种数据传递行为，通过注入让对象和对象产生关系。通过依赖注入的方式可以去除Java类的直接依赖关系，实现松耦合。如果不使用依赖注入，那么对象与对象就交由开发人员来负责。比如优惠券父类引用指向折扣
+      
+    
+    </summary>
+    
+      <category term="Spring" scheme="https://xingxin-99.github.io/categories/Spring/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>对IOC的理解</title>
+    <link href="https://xingxin-99.github.io/2023/08/29/%E5%AF%B9IOC%E7%9A%84%E7%90%86%E8%A7%A3/"/>
+    <id>https://xingxin-99.github.io/2023/08/29/对IOC的理解/</id>
+    <published>2023-08-29T13:12:30.000Z</published>
+    <updated>2023-08-29T13:15:07.198Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="对IOC的理解"><a href="#对IOC的理解" class="headerlink" title="对IOC的理解"></a>对IOC的理解</h2><p>IOC全称为控制反转，它是面向对象编程的一种设计思想，主要是为了降低程序的耦合度，提高程序的扩展力，达到OCP与DIP原则。<br><strong>IOC的核心</strong>：对象创建权以及对象与对象关系的管理权交由第三方容器来负责。<br><strong>IOC的常见实现方式：</strong>依赖注入<br><strong>IOC的主要优点</strong>：</p><ol><li>降低代码之间的耦合度</li><li>集中资源统一管理，简化开发</li></ol><p>软件系统在没有引⼊ IOC 容器之前，对象 A 依赖于对象 B，那么对象 A 在初始化或者运⾏到某⼀点的时候，⾃⼰必须主动去创建对象 B 或者使⽤已经创建的对象 B。⽆论是创建还是使⽤对象 B，控制权都在⾃⼰⼿上。<br>软件系统在引⼊IOC容器之后，这种情形就完全改变了，由于 IOC 容器的加⼊，对象 A 与对象 B 之间失去了直接 联系，所以，当对象 A 运⾏到需要对象 B 的时候，IOC 容器会主动创建⼀个对象 B 注⼊到对象 A 需要的地⽅。 通过前后的对⽐，我们不难看出来：对象 A 获得依赖对象 B 的过程，由主动⾏为变为了被动⾏为，控制权颠倒过 来了，这就是“控制反转”这个名称的由来。  </p><h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>有A、B两个类，其中A依赖于B</p><pre><code class="java">class A{    private B b;    A(int n){        this.b = new B(n);    }}class B{    private int n;    B(int n){        this.n = n;    }}public static vlid main(){  A a = new A(1);}</code></pre><p>现在要对B类业务进行更改，那么创建B的业务代码处都要进行更改，因此代码整体改动较大</p><pre><code class="java">class A{    private B b;    A(int n,int m){        this.b = new B(n,m);    }}class B{    private int n;    private int m;    B(int n,int m){        this.n = n;        this.m = m;    }}public static vlid main(){  A a = new A(1,2);}</code></pre><p>但是如果对象的创建过程以及对象与对象关系的导入过程交由第三方容器来管理，那么对B的业务进行扩展，就不会再影响到A的代码。比如下面代码就实现了IOC思想，将对象的创建以及对象与对象关系的导入交由main函数来管理。</p><pre><code class="java">class A{    private B b;    A(B b){        this.b = b;    }}class B{    private int n;    B(int n){        this.n = n;    }}public static vlid main(){    B b = new B(1);  A a = new A(b);}</code></pre><p>再对B进行功能扩展时，并不影响到A，仅是在main函数（即容器，通过配置文件更改）中创建B对象时发生了变化，因此实现了A与B的解耦合。</p><pre><code class="java">class A{    private B b;    A(B b){        this.b = b;    }}class B{    private int n;    private int m;    B(int n,int m){        this.n = n;        this.m = m;    }}public static vlid main(){    B b = new B(1,2)  A a = new A(b);}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;对IOC的理解&quot;&gt;&lt;a href=&quot;#对IOC的理解&quot; class=&quot;headerlink&quot; title=&quot;对IOC的理解&quot;&gt;&lt;/a&gt;对IOC的理解&lt;/h2&gt;&lt;p&gt;IOC全称为控制反转，它是面向对象编程的一种设计思想，主要是为了降低程序的耦合度，提高程序的扩展力，
+      
+    
+    </summary>
+    
+      <category term="Spring" scheme="https://xingxin-99.github.io/categories/Spring/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Bean对象的生命周期</title>
@@ -368,55 +438,6 @@
     
     
       <category term="技术" scheme="https://xingxin-99.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>主题配置</title>
-    <link href="https://xingxin-99.github.io/2022/04/25/%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE/"/>
-    <id>https://xingxin-99.github.io/2022/04/25/主题配置/</id>
-    <published>2022-04-25T02:37:16.000Z</published>
-    <updated>2023-08-25T07:15:09.984Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="修改对话"><a href="#修改对话" class="headerlink" title="修改对话"></a>修改对话</h2><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230825104420164.png" alt="1"></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;修改对话&quot;&gt;&lt;a href=&quot;#修改对话&quot; class=&quot;headerlink&quot; title=&quot;修改对话&quot;&gt;&lt;/a&gt;修改对话&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;https://starstar-blog.oss-cn-chengdu.aliyuncs.com/im
-      
-    
-    </summary>
-    
-      <category term="技术" scheme="https://xingxin-99.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>搭建博客时遇到的问题</title>
-    <link href="https://xingxin-99.github.io/2022/03/24/%E6%90%AD%E5%BB%BABlog%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/"/>
-    <id>https://xingxin-99.github.io/2022/03/24/搭建Blog时遇到的问题/</id>
-    <published>2022-03-24T12:24:16.000Z</published>
-    <updated>2023-08-25T07:15:14.986Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>问题：执行hexo d后报错ssh: connect to host github.com port 22: Connection refused，文件不能部署到Github中</p></blockquote><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824140639251.png" alt="image-20230824140639251"></p><p><strong>解决：换一个端口号</strong></p><ol><li><p>进入.ssh目录，编辑配置文件config</p><pre><code class="shell">cd ~/.sshvim config</code></pre><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824141033199.png" alt="image-20230824141033199"></p></li><li><p>编辑文件内容</p><pre><code>Host github.comUser gitHostname ssh.github.comPreferredAuthentications publickeyIdentityFile ~/.ssh/id_rsaPort 443Host gitlab.comHostname altssh.gitlab.comUser gitPort 443PreferredAuthentications publickeyIdentityFile ~/.ssh/id_rsa</code></pre><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824141349564.png" alt="image-20230824141349564"></p></li><li><p>保存退出，检查是否成功</p><pre><code>ssh -T git@github.com</code></pre><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824142340533.png" alt="image-20230824142340533"></p></li><li><p>验证hexo d能否成功部署资源到Github，结果成功</p><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824142027146.png" alt="image-20230824142027146"></p><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230824141848200.png" alt="image-20230824141848200"></p></li></ol><p>参考：<a href="https://blog.csdn.net/weixin_45637036/article/details/106560217" target="_blank" rel="noopener">Git问题</a></p><blockquote><p>在分类下添加标签，没有显示创建出分类下的页面</p></blockquote><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/QQ%E5%9B%BE%E7%89%8720230825140212.png" alt="QQ图片20230825140212"></p><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/QQ%E5%9B%BE%E7%89%8720230825140218.png" alt="QQ图片20230825140218"></p><p>解决：</p><p>先生成md文件，在md里添加分类，它会根据这个来生成html页面</p><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230825140708123.png" alt="image-20230825140708123"></p><p>创建成功后，再添加至配置文件中</p><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230825140759883.png" alt="image-20230825140759883"></p><p>hexo g 生成页面会发现页面已经成功生成</p><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230825140932659.png" alt="image-20230825140932659"></p><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230825141238221.png" alt="image-20230825141238221"></p><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230825141328422.png" alt="image-20230825141328422"></p><blockquote><p>如何修改新的分类下的背景图片？</p></blockquote><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/image-20230825142155668.png" alt="image-20230825142155668"></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;blockquote&gt;
-&lt;p&gt;问题：执行hexo d后报错ssh: connect to host github.com port 22: Connection refused，文件不能部署到Github中&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;img src=&quot;http
-      
-    
-    </summary>
-    
-      <category term="技术" scheme="https://xingxin-99.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
-    
     
   </entry>
   
