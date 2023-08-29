@@ -454,11 +454,11 @@
 <li><code>侵入式</code>让用户代码产生对框架的依赖，这些代码不能在框架外使用，不利于代码的复用。</li>
 </ol>
 </li>
-<li><strong>控制反转（IOC）</strong><br>IOC是指将对象的创建和对象生命周期的管理交由Spring来处理，开发人员可以把更多的精力集中于业务的开发上面，而不用关注于对象如何创建、如何管理、对象与对象之间的依赖关系怎么传递（在依赖注入中，对象不再自己创建或查找它们所依赖的对象，而是通过外部机制（配置文件/注解）将依赖项提供给它们）。另外，通过IOC可以促进代码的松耦合。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/32637015/1693278010759-deeea515-6b57-4a15-9216-8dedac9ae715.png#averageHue=%23e2e5db&amp;clientId=uecd56c7a-a3ed-4&amp;from=paste&amp;height=251&amp;id=ubabf4d66&amp;originHeight=241&amp;originWidth=336&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=true&amp;status=done&amp;style=none&amp;taskId=u3fa8e9ee-5060-45d1-8dca-a51a94b29d1&amp;title=%E4%BC%A0%E7%BB%9F%E8%AE%BE%E8%AE%A1&amp;width=350" alt="传统设计" title="传统设计"><img src="https://cdn.nlark.com/yuque/0/2023/jpeg/32637015/1693278032871-06eedae8-7a1d-4c54-85f1-3f1b6ac36dd7.jpeg#averageHue=%23e1e2d9&amp;clientId=uecd56c7a-a3ed-4&amp;from=paste&amp;height=358&amp;id=ua2864eb5&amp;originHeight=421&amp;originWidth=336&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=true&amp;status=done&amp;style=none&amp;taskId=ue101ca02-8010-4ee6-9458-5659973f46b&amp;title=IOC%E5%AE%B9%E5%99%A8&amp;width=286" alt="IOC容器" title="IOC容器"></li>
+<li><strong>控制反转（IOC）</strong><br>IOC是指将对象的创建和对象生命周期的管理交由Spring来处理，开发人员可以把更多的精力集中于业务的开发上面，而不用关注于对象如何创建、如何管理、对象与对象之间的依赖关系怎么传递（在依赖注入中，对象不再自己创建或查找它们所依赖的对象，而是通过外部机制（配置文件/注解）将依赖项提供给它们）。另外，通过IOC可以促进代码的松耦合。<br><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/1693278010759-deeea515-6b57-4a15-9216-8dedac9ae715.png" alt="传统设计" title="传统设计"><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/1693278032871-06eedae8-7a1d-4c54-85f1-3f1b6ac36dd7.jpeg" alt="IOC容器" title="IOC容器"></li>
 <li><strong>面向切面（AOP） </strong><br>面向切面编程指的是在业务开发过程中将与业务无关但又在编写代码过程中会被多次使用的代码块（比如日志、事务等）从业务代码中抽离出来，单独封装，当需要使用时再把其织入到业务代码处。<br>Spring支持面向切面编程，它可以在程序运行期间动态的将某段代码切入到指定方法位置。在Spring中提供了Spring AOP模块，通过定义切面类<code>@Aspect</code>，并在切面类的通知<code>@Before(切点表达式)</code>写入要执行代码逻辑，通过切入点<code>@Pointcut(&quot;execution(* com.remcarpediem.test.aop.service..*(..))&quot;)</code>对连接点进行拦截的条件定义，从而帮助开发人员方便的实现面向切面编程。</li>
-<li>容器<br>Spring包含并管理应用对象的配置和生命周期。Spring可以通过可配置原型(prototype)来配置每个bean如何被创建。另外Spring会负责创建、初始化、维护和销毁应用程序中的对象。</li>
-<li>事务管理<br>Spring中提供了编程式事务管理以及声明式事务管理两种对事务的支持。Spring提供了事务管理的相关接口，通过在类、方法或接口上加<code>@Transactional</code>注解来进行事务管理。</li>
-<li>方便程序测试<br>Spring对Junit支持，可以通过注解方便的测试Spring程序。</li>
+<li><strong>容器</strong><br>Spring包含并管理应用对象的配置和生命周期。Spring可以通过可配置原型(prototype)来配置每个bean如何被创建。另外Spring会负责创建、初始化、维护和销毁应用程序中的对象。</li>
+<li><strong>事务管理</strong><br>Spring中提供了编程式事务管理以及声明式事务管理两种对事务的支持。Spring提供了事务管理的相关接口，通过在类、方法或接口上加<code>@Transactional</code>注解来进行事务管理。</li>
+<li><strong>方便程序测试</strong><br>Spring对Junit支持，可以通过注解方便的测试Spring程序。</li>
 </ol>
 <p>参考：<br><a href="https://www.cnblogs.com/tanghaorong/p/14757368.html" target="_blank" rel="noopener">https://www.cnblogs.com/tanghaorong/p/14757368.html</a><br><a href="https://blog.csdn.net/lsqingfeng/article/details/115503409" target="_blank" rel="noopener">https://blog.csdn.net/lsqingfeng/article/details/115503409</a></p>
 
