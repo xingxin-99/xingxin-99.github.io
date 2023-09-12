@@ -531,19 +531,48 @@ x = np.stack([eeg[:, epochInterval + event[0]] for event in events], axis=2)
 # Multiply the data with 1e3
 x = x * 1e3 # 这里参考FBCNet对于BCIIV2a读取的数据的处理，将数据 * 1e3
 </code></pre>
-<p><strong>完整代码</strong><br><code>`</code>python<br>import mne<br>import numpy as np</p>
 </li>
 </ol>
-<p>import matplotlib.pyplot as plt</p>
-<p>path =’E:\Data\2023_MI\YJ\0804_YJ.vhdr’</p>
-<p>raw = mne.io.read_raw_brainvision(path,eog=(‘FT9’,’FT10’),preload=True)<br>eeg = raw.get_data()</p>
-<p>#带通滤波<br>raw_filter = raw.copy()<br>raw_filter.filter(l_freq=0.5,h_freq=100)  #参考BCIIV2A<br>raw_filter.notch_filter(freqs=50)  #一般做一个50hz凹陷滤波，事件干扰工频干扰<br>eeg_filter = raw_filter.get_data()</p>
-<p>#降采样<br>new_sfreq = 250<br>raw_resampled = raw_filter.copy().resample(sfreq=new_sfreq)<br>eeg_resampled = raw_resampled.get_data()</p>
-<h1 id="raw-resampled-plot-start-20-duration-1"><a href="#raw-resampled-plot-start-20-duration-1" class="headerlink" title="raw_resampled.plot(start=20,duration=1)"></a>raw_resampled.plot(start=20,duration=1)</h1><h1 id="plt-show"><a href="#plt-show" class="headerlink" title="plt.show()"></a>plt.show()</h1><p>#<br>raw_event = mne.events_from_annotations(raw_resampled)<br>gdf_events = raw_event[0][:, [0, 2]].tolist()<br>eventCode = [1,2,3,4,5,6,7,8,9]</p>
-<p>offset = 6 # 从第6s开始读取真实运动想象数据<br>epochWindow=[0, 4] #读取4s运动想象数据</p>
-<h1 id="Epoch-the-data"><a href="#Epoch-the-data" class="headerlink" title="Epoch the data"></a>Epoch the data</h1><p>events = [event for event in gdf_events if event[1] in eventCode]<br>y = np.array([i[1] for i in events])<br>epochInterval = np.array(range(epochWindow[0] <em> new_sfreq, epochWindow[1] </em> new_sfreq)) + offset * new_sfreq<br>x = np.stack([eeg[:, epochInterval + event[0]] for event in events], axis=2)</p>
-<h1 id="Multiply-the-data-with-1e6"><a href="#Multiply-the-data-with-1e6" class="headerlink" title="Multiply the data with 1e6"></a>Multiply the data with 1e6</h1><p>x = x * 1e3</p>
-<h1 id="change-the-labels-from-1-9-to-0-8"><a href="#change-the-labels-from-1-9-to-0-8" class="headerlink" title="change the labels from [1-9] to [0-8]"></a>change the labels from [1-9] to [0-8]</h1><p>y = y - 1<br>data = {‘x’: x, ‘y’: y, ‘s’: new_sfreq}<br><code>`</code></p>
+<p><strong>完整代码</strong></p>
+<pre><code class="python">import mne
+import numpy as np
+
+import matplotlib.pyplot as plt
+
+path =&#39;E:\\Data\\2023_MI\\YJ\\0804_YJ.vhdr&#39;
+
+raw = mne.io.read_raw_brainvision(path,eog=(&#39;FT9&#39;,&#39;FT10&#39;),preload=True)
+eeg = raw.get_data()
+#带通滤波
+raw_filter = raw.copy()
+raw_filter.filter(l_freq=0.5,h_freq=100)  #参考BCIIV2A
+raw_filter.notch_filter(freqs=50)  #一般做一个50hz凹陷滤波，事件干扰工频干扰
+eeg_filter = raw_filter.get_data()
+#降采样
+new_sfreq = 250
+raw_resampled = raw_filter.copy().resample(sfreq=new_sfreq)
+eeg_resampled = raw_resampled.get_data()
+# raw_resampled.plot(start=20,duration=1)
+# plt.show()
+#
+raw_event = mne.events_from_annotations(raw_resampled)
+gdf_events = raw_event[0][:, [0, 2]].tolist()
+eventCode = [1,2,3,4,5,6,7,8,9]
+
+offset = 6 # 从第6s开始读取真实运动想象数据
+epochWindow=[0, 4] #读取4s运动想象数据
+
+# Epoch the data
+events = [event for event in gdf_events if event[1] in eventCode]
+y = np.array([i[1] for i in events])
+epochInterval = np.array(range(epochWindow[0] * new_sfreq, epochWindow[1] * new_sfreq)) + offset * new_sfreq
+x = np.stack([eeg[:, epochInterval + event[0]] for event in events], axis=2)
+# Multiply the data with 1e6
+x = x * 1e3
+# change the labels from [1-9] to [0-8]
+y = y - 1
+data = {&#39;x&#39;: x, &#39;y&#39;: y, &#39;s&#39;: new_sfreq}
+</code></pre>
 
         </div>
         <!-- .entry-content -->
@@ -572,9 +601,26 @@ x = x * 1e3 # 这里参考FBCNet对于BCIIV2a读取的数据的处理，将数�
       <div class="toc" style="background: none;"></div>
       <section class="post-squares nextprev">
         
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2023/09/12/OpenBMI/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="" data-src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/img/starry_sky_stars_space_1018483_1920x1200.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/img/starry_sky_stars_space_1018483_1920x1200.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                OpenBMI</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
         
           
-            <div class="post-nepre full next">
+            <div class="post-nepre half next">
           
             <a href="/2023/09/08/卷积核可视化/" rel="next">
               <div class="background">
