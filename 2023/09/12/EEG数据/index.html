@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">卷积核可视化 | Star</title>
+  <title itemprop="name">EEG数据 | Star</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -418,7 +418,7 @@
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
-      卷积核可视化</h1>
+      EEG数据</h1>
       <p class="entry-census">
         <span>
           <a href="">
@@ -430,7 +430,7 @@
         </span>
         <span class="bull">
         ·</span>
-        2023-9-8<span class="bull">
+        2023-9-12<span class="bull">
         ·</span>
       <span id="busuanzi_value_page_pv"></span>次阅读</p>
     </header>
@@ -444,208 +444,106 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <h1 id="卷积核可视化"><a href="#卷积核可视化" class="headerlink" title="卷积核可视化"></a>卷积核可视化</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>卷积核可视化可视的是卷积核的权重，其中颜色越深，代表权重越大。<br>亮的像素点代表小的权重，与之对应的图像中的像素产生的影响较小。暗的像素点代表大的权重，意味着对应的图像中的像素的影响较大。可看出这些特征映射反应了某些特殊的空间结构，因此CNN学习到了一些与空间结构有关的信息用于识别。<br>参考：<a href="https://blog.csdn.net/weixin_45918732/article/details/103270215" target="_blank" rel="noopener">[深度学习]神经网络中 权重矩阵/卷积核 以及 （y=wx+非线性变换）输出值/特征图的本质理解<em>少年初心的博客-CSDN博客</em>卷积核和权值矩阵</a></p>
-<h2 id="可视化卷积核代码"><a href="#可视化卷积核代码" class="headerlink" title="可视化卷积核代码"></a>可视化卷积核代码</h2><pre><code class="python">import torch
-import torch
-import torch.nn as nn
-import matplotlib.pyplot as plt
-import numpy as np
+          <h2 id="实验设计"><a href="#实验设计" class="headerlink" title="实验设计"></a>实验设计</h2><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/1694429239022-53b90b87-c92b-47ea-a752-6f171d26c92c.jpeg" alt><br>总共有九个类别，每个被试开始运动想象打上对应类别标签，结束打上结束标签。</p>
+<h2 id="分析annotations为721的原因"><a href="#分析annotations为721的原因" class="headerlink" title="分析annotations为721的原因"></a>分析annotations为721的原因</h2><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/1694417892542-75c8adbf-e296-4262-9e15-b32bf53fceb1.png" alt="image.png"><br>每个类别40个trail，因此类别标签共40*9=360个。另外每个trail结束会打一个结束标签，因此共有结束标签360个。另外试验刚开始会打一个标签，因此总共有721个标签。</p>
+<table>
+<thead>
+<tr>
+<th>标记</th>
+<th>类别</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>左手</td>
+</tr>
+<tr>
+<td>2</td>
+<td>右手</td>
+</tr>
+<tr>
+<td>3</td>
+<td>伸肘</td>
+</tr>
+<tr>
+<td>4</td>
+<td>屈肘</td>
+</tr>
+<tr>
+<td>5</td>
+<td>上翻腕</td>
+</tr>
+<tr>
+<td>6</td>
+<td>下翻腕</td>
+</tr>
+<tr>
+<td>7</td>
+<td>握拳</td>
+</tr>
+<tr>
+<td>8</td>
+<td>松拳</td>
+</tr>
+<tr>
+<td>9</td>
+<td>静息</td>
+</tr>
+<tr>
+<td>10</td>
+<td>结束标志</td>
+</tr>
+</tbody>
+</table>
+<h2 id="数据基本信息"><a href="#数据基本信息" class="headerlink" title="数据基本信息"></a>数据基本信息</h2><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/1694421793175-c15e9a64-9076-43ba-bd29-2f8df09af407.png" alt="image.png"></p>
+<h2 id="数据预处理（滤波-凹陷滤波-降采样）"><a href="#数据预处理（滤波-凹陷滤波-降采样）" class="headerlink" title="数据预处理（滤波+凹陷滤波+降采样）"></a>数据预处理（滤波+凹陷滤波+降采样）</h2><pre><code class="python">#带通滤波
+raw_filter = raw.copy()
+raw_filter.filter(l_freq=0.5,h_freq=100)  #参考BCIIV2A
+raw_filter.notch_filter(freqs=50)  #一般做一个50hz凹陷滤波，事件干扰工频干扰
+eeg_filter = raw_filter.get_data()
+#降采样
+new_sfreq = 250
+raw_resampled = raw_filter.copy().resample(sfreq=new_sfreq)
+eeg_resampled = raw_resampled.get_data()
 </code></pre>
-<pre><code class="python">class eca_layer(nn.Module):
-    &quot;&quot;&quot;Constructs a ECA module.
-    Args:
-        channel: Number of channels of the input feature map
-        k_size: Adaptive selection of kernel size
-    &quot;&quot;&quot;
-
-    def __init__(self, channel, k_size=3):
-        super(eca_layer, self).__init__()
-        self.avg_pool = nn.AdaptiveAvgPool2d(1)
-        self.conv = nn.Conv1d(1, 1, kernel_size=k_size, padding=(k_size - 1) // 2, bias=False)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, x):
-        # x: input features with shape [b, c, h, w]
-        b, c, h, w = x.size()
-
-        # feature descriptor on the global spatial information
-        y = self.avg_pool(x)
-
-        y1 = y.squeeze(-1).transpose(-1, -2)
-
-        # Two different branches of ECA module
-        y2 = self.conv(y1)
-
-        y3 = y2.transpose(-1, -2).unsqueeze(-1)
-
-        # Multi-scale information fusion
-        y = self.sigmoid(y)
-
-        return x * y.expand_as(x)
-        # %% Support classes for ShallowFBCNet Implementation
-class ActSquare(nn.Module):
-    def __init__(self):
-        super(ActSquare, self).__init__()
-        pass
-
-    def forward(self, x):
-        return torch.square(x)
-
-
-class ActLog(nn.Module):
-    def __init__(self, eps=1e-06):
-        super(ActLog, self).__init__()
-        self.eps = eps
-
-    def forward(self, x):
-        return torch.log(torch.clamp(x, min=self.eps))
-class Conv2dWithConstraint(nn.Conv2d):
-    def __init__(self, *args, doWeightNorm=True, max_norm=1, **kwargs):
-        self.max_norm = max_norm
-        self.doWeightNorm = doWeightNorm
-        super(Conv2dWithConstraint, self).__init__(*args, **kwargs)
-
-    def forward(self, x):
-        if self.doWeightNorm:
-            self.weight.data = torch.renorm(
-                self.weight.data, p=2, dim=0, maxnorm=self.max_norm
-            )
-        return super(Conv2dWithConstraint, self).forward(x)
-
-
-class LinearWithConstraint(nn.Linear):
-    def __init__(self, *args, doWeightNorm=True, max_norm=1, **kwargs):
-        self.max_norm = max_norm
-        self.doWeightNorm = doWeightNorm
-        super(LinearWithConstraint, self).__init__(*args, **kwargs)
-
-    def forward(self, x):
-        if self.doWeightNorm:
-            self.weight.data = torch.renorm(
-                self.weight.data, p=2, dim=0, maxnorm=self.max_norm
-            )
-        return super(LinearWithConstraint, self).forward(x)
-class MSASNet(nn.Module):
-    def __init__(self, nChan=22, nTime=1000, nClass=2, dropoutP=0.25, *args, **kwargs):
-        super(MSASNet, self).__init__()
-        self.timekernel = 25
-        self.poolkernel = 85
-        self.poolstride = 15
-        self.TC1 = nn.Sequential(
-            Conv2dWithConstraint(1, 20, (1, self.timekernel), padding=(0, (self.timekernel - 1) // 2), max_norm=2),
-        )
-        self.TC2 = nn.Sequential(
-
-            Conv2dWithConstraint(1, 20, (1, self.timekernel), padding=(0, (self.timekernel - 1) // 2), max_norm=2),
-            Conv2dWithConstraint(20, 20, (1, self.timekernel), padding=(0, (self.timekernel - 1) // 2), max_norm=2,
-        groups=20),
-
-        )
-        self.TC3 = nn.Sequential(
-
-        Conv2dWithConstraint(1, 20, (1, self.timekernel), padding=(0, (self.timekernel - 1) // 2), max_norm=2),
-        Conv2dWithConstraint(20, 20, (1, self.timekernel), padding=(0, (self.timekernel - 1) // 2), max_norm=2,
-        groups=20),
-        Conv2dWithConstraint(20, 20, (1, self.timekernel), padding=(0, (self.timekernel - 1) // 2), max_norm=2,
-        groups=20),
-
-        )
-        self.SP = nn.Sequential(
-        Conv2dWithConstraint(60, 120, (nChan, 1), max_norm=2, groups=60),
-        nn.BatchNorm2d(120),
-        ActSquare(),
-        nn.AvgPool2d((1, self.poolkernel), (1, self.poolstride)),
-        ActLog(),
-        )
-        self.ECA = eca_layer(120)
-        self.FC = nn.Sequential(
-        nn.Dropout(),
-        nn.Flatten(),
-        LinearWithConstraint(7440, nClass, max_norm=0.5),  # 3720-&gt;7440
-        nn.LogSoftmax(dim=1)
-        )
-
-        def forward(self, x):
-        x1 = self.TC1(x)
-        x2 = self.TC2(x)
-        x3 = self.TC3(x)
-        x = torch.cat((x1, x2, x3), dim=1)
-        x = self.SP(x)
-        x = self.ECA(x)
-        x = self.FC(x)
-        return x
+<p><strong>滤波前</strong></p>
+<p><a href="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/1694431417932-43c560fa-86ec-47fe-b37a-a87fec73f0af.png" target="_blank" rel="noopener">image.png</a></p>
+<p><strong>滤波后</strong><br>!<img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/1694431544937-3864f623-684f-4a02-915d-11fd7a1c96fa.png" alt="image.png"></p>
+<h2 id="event标签数据"><a href="#event标签数据" class="headerlink" title="event标签数据"></a>event标签数据</h2><p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/1694417714048-b238b025-0d42-4797-aeb5-910e5295cc1e.png" alt="image.png"></p>
+<ol>
+<li><p>根据上述分析，以每个类别标签为起点，读取其后4s的想象数据。</p>
+<pre><code class="python"># 类别标签
+eventCode = [1,2,3,4,5,6,7,8,9]
+#截取每个类别对应的event
+events = [event for event in gdf_events if event[1] in eventCode]
 </code></pre>
-<pre><code class="python"># 导入模型并加载最好的模型
-model =MSASNet(nChan=22, nTime=1000, nClass=4)
-model.load_state_dict(torch.load(&#39;C:/Users/star/Desktop/star/Coding/FBCNet/codes/netInitModels/MSASNet_0.pth&#39;))
+<p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/1694420506106-aa3d38c9-b5b1-4a36-aee3-dbae8ca1fd2e.png" alt="image.png"></p>
+</li>
+<li><p>读取类别标签</p>
+<pre><code class="python">y = np.array([i[1] for i in events])
 </code></pre>
-<p>打印网络结构</p>
-<pre><code class="python">
-MSASNet(
-  (TC1): Sequential(
-    (0): Conv2dWithConstraint(1, 20, kernel_size=(1, 25), stride=(1, 1), padding=(0, 12))
-  )
-  (TC2): Sequential(
-    (0): Conv2dWithConstraint(1, 20, kernel_size=(1, 25), stride=(1, 1), padding=(0, 12))
-    (1): Conv2dWithConstraint(20, 20, kernel_size=(1, 25), stride=(1, 1), padding=(0, 12), groups=20)
-  )
-  (TC3): Sequential(
-    (0): Conv2dWithConstraint(1, 20, kernel_size=(1, 25), stride=(1, 1), padding=(0, 12))
-    (1): Conv2dWithConstraint(20, 20, kernel_size=(1, 25), stride=(1, 1), padding=(0, 12), groups=20)
-    (2): Conv2dWithConstraint(20, 20, kernel_size=(1, 25), stride=(1, 1), padding=(0, 12), groups=20)
-  )
-  (SP): Sequential(
-    (0): Conv2dWithConstraint(60, 120, kernel_size=(22, 1), stride=(1, 1), groups=60)
-    (1): BatchNorm2d(120, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    (2): ActSquare()
-    (3): AvgPool2d(kernel_size=(1, 85), stride=(1, 15), padding=0)
-    (4): ActLog()
-  )
-  (ECA): eca_layer(
-    (avg_pool): AdaptiveAvgPool2d(output_size=1)
-    (conv): Conv1d(1, 1, kernel_size=(3,), stride=(1,), padding=(1,), bias=False)
-    (sigmoid): Sigmoid()
-  )
-  (FC): Sequential(
-    (0): Dropout(p=0.5, inplace=False)
-    (1): Flatten(start_dim=1, end_dim=-1)
-    (2): LinearWithConstraint(in_features=7440, out_features=4, bias=True)
-    (3): LogSoftmax(dim=1)
-  )
-)
+<p><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/1694420570578-6ab66bdb-19a4-428e-aa17-4f30158d7e4c.png" alt="image.png"></p>
+</li>
+<li><p>截取每个类别标签后读取的4s数据</p>
+<pre><code class="python">epochInterval = np.array(range(epochWindow[0] * fs, epochWindow[1] * fs)) + offset * fs
+x = np.stack([eeg[:, epochInterval + event[0]] for event in events], axis=2)
+# Multiply the data with 1e3
+x = x * 1e3 # 这里参考FBCNet对于BCIIV2a读取的数据的处理，将数据 * 1e3
 </code></pre>
-<p>选择想要可视化的卷积核：</p>
-<pre><code class="python">SPConv = dict(model.named_children())[&#39;SP&#39;][0] #获取对应的卷积层
-# out：Conv2dWithConstraint(60, 120, kernel_size=(22, 1), stride=(1, 1), groups=60)
-kernel_set = SPConv1.weight.detach() #获取该卷积层对应的卷积核权重
-# out：torch.Size([120, 1, 22, 1])
-num = len(SPConv1.weight.detach()) #num对应该层的卷积核的数量
-# out：120
-</code></pre>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/32637015/1667968387144-0764f830-4f68-4fb5-8b6c-f4523ea90811.png#averageHue=%23f6f6f6&amp;clientId=u9bd1aedd-ba8b-4&amp;from=paste&amp;height=48&amp;id=ufc4ff811&amp;originHeight=83&amp;originWidth=1097&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=2208&amp;status=done&amp;style=none&amp;taskId=u4a433ba9-1b21-48ae-87d5-af81a238e3a&amp;title=&amp;width=635" alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2022/png/32637015/1667968423247-44b65ac6-b112-4df7-925f-01d92b60479d.png#averageHue=%23f7f6f6&amp;clientId=u9bd1aedd-ba8b-4&amp;from=paste&amp;height=65&amp;id=uf6d252ba&amp;originHeight=68&amp;originWidth=660&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=1447&amp;status=done&amp;style=none&amp;taskId=u657be7ba-c7a8-446d-a6e9-60bcad01433&amp;title=&amp;width=635" alt="image.png"><br>打印所有的卷积核</p>
-<pre><code class="python">for i in range(0,num):
-    i_kernel = kernel_set[i]
-    plt.figure(figsize=(20, 17))#figsize指定图片的宽和高
-    for idx in range(0,9):
-        plt.subplot(9, 9, idx+1) #将当前图像窗口分为几行几列，当前图片位于第几个
-        plt.axis(&#39;off&#39;) # 关闭坐标轴
-        plt.imshow(i_kernel[ :, :].squeeze(0).detach(),cmap=&#39;gray&#39;)    
-</code></pre>
-<p>输出：<br><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/1667968605641-947eba30-ef1a-4839-8767-21e3b746d37b.png" alt="image.png"></p>
-<pre><code class="python">total_kernel = torch.zeros((1,22,1))
-for i in range(0,num):
-    i_kernel = kernel_set[i]
-    total_kernel +=  i_kernel
-total_kernel = total_kernel/22 # 获得平均权重
-index_ls = [&#39;Fz&#39;,&#39;FC3&#39;,&#39;FC1&#39;,&#39;FCz&#39;,&#39;FC2&#39;,&#39;FC4&#39;,&#39;C5&#39;,&#39;C3&#39;,&#39;C1&#39;,&#39;Cz&#39;,&#39;C2&#39;,&#39;C4&#39;,&#39;C6&#39;,&#39;CP3&#39;,&#39;CP1&#39;,&#39;CPz&#39;,&#39;CP2&#39;,&#39;CP4&#39;,&#39;P1&#39;,&#39;Pz&#39;,&#39;P2&#39;,&#39;POz&#39;]
-plt.figure(figsize=(20, 17))#figsize指定图片的宽和高
-# plt.axis(&#39;off&#39;) # 关闭坐标轴
-plt.yticks(np.arange(0, 22, 1),index_ls)
-plt.imshow(total_kernel[ :, :].squeeze(0).detach(),cmap=&#39;bwr&#39;)   
-</code></pre>
-<p>打印：<br><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/1667968752633-6c82acb0-1822-4cfe-ad6d-20845f7f193a.png" alt="image.png"></p>
-<h2 id="EEG电极"><a href="#EEG电极" class="headerlink" title="EEG电极"></a>EEG电极</h2><p>运动皮层9导联的EEG信号，它们为：FC3，FCz，FC4，C3，CZ，C4，CP3，CPZ，CP4实验范式包括MI任务类型</p>
-<h3 id="BCI-IV-2A电极"><a href="#BCI-IV-2A电极" class="headerlink" title="BCI IV 2A电极"></a>BCI IV 2A电极</h3><p><img src="https://cdn.nlark.com/yuque/0/2022/png/32637015/1667968933442-3e4b5b78-b5a3-4f99-96fc-81c909d21c2f.png#averageHue=%23faf4f2&amp;clientId=u9bd1aedd-ba8b-4&amp;from=paste&amp;height=127&amp;id=u10ff4178&amp;originHeight=127&amp;originWidth=1761&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=139422&amp;status=done&amp;style=none&amp;taskId=u985c98b7-f4b6-4ccc-8adc-f2ffd9588d2&amp;title=&amp;width=1761" alt="image.png"><br><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/1667968828419-911262e0-5a1f-482d-a29f-f67705483109.png" alt="image.png"><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/1667968839571-f8d834ca-fd1a-4c22-9316-9490e8b540a6.png" alt="image.png"><br><img src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/1667969237202-f7b5ea4c-7843-4ef4-b751-dd44bceb44e3.png" alt="image.png"></p>
+<p><strong>完整代码</strong><br><code>`</code>python<br>import mne<br>import numpy as np</p>
+</li>
+</ol>
+<p>import matplotlib.pyplot as plt</p>
+<p>path =’E:\Data\2023_MI\YJ\0804_YJ.vhdr’</p>
+<p>raw = mne.io.read_raw_brainvision(path,eog=(‘FT9’,’FT10’),preload=True)<br>eeg = raw.get_data()</p>
+<p>#带通滤波<br>raw_filter = raw.copy()<br>raw_filter.filter(l_freq=0.5,h_freq=100)  #参考BCIIV2A<br>raw_filter.notch_filter(freqs=50)  #一般做一个50hz凹陷滤波，事件干扰工频干扰<br>eeg_filter = raw_filter.get_data()</p>
+<p>#降采样<br>new_sfreq = 250<br>raw_resampled = raw_filter.copy().resample(sfreq=new_sfreq)<br>eeg_resampled = raw_resampled.get_data()</p>
+<h1 id="raw-resampled-plot-start-20-duration-1"><a href="#raw-resampled-plot-start-20-duration-1" class="headerlink" title="raw_resampled.plot(start=20,duration=1)"></a>raw_resampled.plot(start=20,duration=1)</h1><h1 id="plt-show"><a href="#plt-show" class="headerlink" title="plt.show()"></a>plt.show()</h1><p>#<br>raw_event = mne.events_from_annotations(raw_resampled)<br>gdf_events = raw_event[0][:, [0, 2]].tolist()<br>eventCode = [1,2,3,4,5,6,7,8,9]</p>
+<p>offset = 6 # 从第6s开始读取真实运动想象数据<br>epochWindow=[0, 4] #读取4s运动想象数据</p>
+<h1 id="Epoch-the-data"><a href="#Epoch-the-data" class="headerlink" title="Epoch the data"></a>Epoch the data</h1><p>events = [event for event in gdf_events if event[1] in eventCode]<br>y = np.array([i[1] for i in events])<br>epochInterval = np.array(range(epochWindow[0] <em> new_sfreq, epochWindow[1] </em> new_sfreq)) + offset * new_sfreq<br>x = np.stack([eeg[:, epochInterval + event[0]] for event in events], axis=2)</p>
+<h1 id="Multiply-the-data-with-1e6"><a href="#Multiply-the-data-with-1e6" class="headerlink" title="Multiply the data with 1e6"></a>Multiply the data with 1e6</h1><p>x = x * 1e3</p>
+<h1 id="change-the-labels-from-1-9-to-0-8"><a href="#change-the-labels-from-1-9-to-0-8" class="headerlink" title="change the labels from [1-9] to [0-8]"></a>change the labels from [1-9] to [0-8]</h1><p>y = y - 1<br>data = {‘x’: x, ‘y’: y, ‘s’: new_sfreq}<br><code>`</code></p>
 
         </div>
         <!-- .entry-content -->
@@ -674,28 +572,11 @@ plt.imshow(total_kernel[ :, :].squeeze(0).detach(),cmap=&#39;bwr&#39;)
       <div class="toc" style="background: none;"></div>
       <section class="post-squares nextprev">
         
-          
-            <div class="post-nepre half previous">
-          
-            <a href="/2023/09/12/EEG数据/" rel="prev">
-              <div class="background">
-                <img class="lazyload" src="" data-src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/img/starry_sky_stars_space_1018483_1920x1200.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/img/starry_sky_stars_space_1018483_1920x1200.jpg">
-              </div>
-              <span class="label">
-              Previous Post</span>
-              <div class="info">
-                <h3>
-                EEG数据</h3>
-                <hr>
-              </div>
-            </a>
-          </div>
-        
         
           
-            <div class="post-nepre half next">
+            <div class="post-nepre full next">
           
-            <a href="/2023/09/08/特征图可视化/" rel="next">
+            <a href="/2023/09/08/卷积核可视化/" rel="next">
               <div class="background">
                 <img class="lazyload" src="" data-src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/img/starry_sky_stars_space_1018483_1920x1200.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://starstar-blog.oss-cn-chengdu.aliyuncs.com/img/starry_sky_stars_space_1018483_1920x1200.jpg">
               </div>
@@ -703,7 +584,7 @@ plt.imshow(total_kernel[ :, :].squeeze(0).detach(),cmap=&#39;bwr&#39;)
               Next Post</span>
               <div class="info">
                 <h3>
-                特征图可视化</h3>
+                卷积核可视化</h3>
                 <hr>
               </div>
             </a>
