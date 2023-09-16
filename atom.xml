@@ -133,26 +133,6 @@
   </entry>
   
   <entry>
-    <title>得物二面</title>
-    <link href="https://xingxin-99.github.io/2023/09/03/%E5%BE%97%E7%89%A9%E4%BA%8C%E9%9D%A2/"/>
-    <id>https://xingxin-99.github.io/2023/09/03/得物二面/</id>
-    <published>2023-09-03T09:07:14.000Z</published>
-    <updated>2023-09-03T09:26:25.451Z</updated>
-    
-    <content type="html"><![CDATA[<p>二面时间：2023/9/2 10：50 大约30min</p><ol><li>自我介绍</li><li>你的项目经历主要是Java开发，那你为什么投递测试开发这个方向呢？</li><li>计算机科学与技术这个专业会去学习测试相关的课程吗？</li><li>对于软件测试这个方向，你都了解哪些内容？</li><li>刚才有提到白盒测试与黑盒测试，请详细介绍一下白盒测试和黑盒测试的方法有哪些？</li><li>这些都去尝试和实践过吗？</li><li>接口测试的核心点是什么？</li><li>接口测试了解哪些类型？</li><li>不是测试工具，是了解哪些类型的接口？</li><li>自测的话，那么测试用例你是如何编写的？</li><li>不是设计用例的具体细节，你觉得什么样的测试用例可以称之为一个好的测试用例？</li><li>你做自测时，有没有什么让你比较深刻的问题？</li><li>对测试开发这个行业现状和技术，还有最新的技术实践有做过学习和了解吗？</li><li>那测试开发的行业动态了解吗？</li><li>你觉得你个人的优势在哪里？</li><li>反问：一些关于测试学习的建议</li><li>建议：首先确定自己是否要走测试开发这个方向，然后去系统的学习测试的理论知识。另外要去了解行业的最新动态和实践。比如说举个例子，做测试、做自动化，这个是一个非常普遍的一个技术手段了。什么是自动化？对吧？嗯，现在工具有很多种，哪一种是比较这个比较好的，或者说比较通用的。那自动化这个工具它演进从一开始到现在它的演进过程是什么？不要只了解说现在是你会用，那你不知道为什么它慢慢会演变成这个样子，对吧？这个是可能会区分出我们对于候选人，当然未必是校招，可能对于社招来说也未必都了解的这么好。嗯，它可以区分那个一个层次的。还有行业目前的现状。另一方面对于目前行业的现状，对吧？行业的最新的一些实践。</li><li>闲聊</li><li>目前会看新闻吗？</li><li>对得物有了解吗？</li><li>平时一般购物会用什么平台？</li><li>各自体会怎么样？</li><li>有考虑过未来的职业发展吗？希望在哪个城市或者哪个行业方向？</li><li>对于目前互联网普遍加班严重这个现象，你怎么看？</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      得物二面面试官更关注于面试者对测试的了解以及对整个测试行业动态的关注，面完收获颇丰
-    
-    </summary>
-    
-      <category term="面试" scheme="https://xingxin-99.github.io/categories/%E9%9D%A2%E8%AF%95/"/>
-    
-    
-  </entry>
-  
-  <entry>
     <title>Spring Bean对象的作用域</title>
     <link href="https://xingxin-99.github.io/2023/08/29/Spring-Bean%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F/"/>
     <id>https://xingxin-99.github.io/2023/08/29/Spring-Bean对象的作用域/</id>
@@ -443,6 +423,24 @@
     
       <category term="技术" scheme="https://xingxin-99.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
     
+    
+  </entry>
+  
+  <entry>
+    <title>Spring</title>
+    <link href="https://xingxin-99.github.io/2023/08/25/Spring/"/>
+    <id>https://xingxin-99.github.io/2023/08/25/Spring/</id>
+    <published>2023-08-25T05:49:03.000Z</published>
+    <updated>2023-08-25T07:15:18.553Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="Spring" scheme="https://xingxin-99.github.io/categories/Spring/"/>
+    
+    
+      <category term="Spring" scheme="https://xingxin-99.github.io/tags/Spring/"/>
     
   </entry>
   
